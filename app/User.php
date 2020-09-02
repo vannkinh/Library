@@ -36,16 +36,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function articles()
-    {
+    public function articles(){
         return $this->hasMany(Articles::class, 'articles_id');
     }
-
-    // protected $fillable = [
-    // 'name',
-    // 'email',
-    // 'email_verified_at',
-    // 'password',
-    // 'remember_token',
-    // ];
+    protected $table = "users";
+     public $timestamps = false;
+    //  protected $fillable = ['name', 'email', 'email_verified_at', 'remember_token', 'create_at', 'updated_at'];
 }

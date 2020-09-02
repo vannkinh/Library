@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\User;
+// use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+use App\Articles;
+// use App\User;
+
+class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(User::get(), 200);
+        return response()->json(Articles::get(), 200);
     }
 
     /**
@@ -35,7 +38,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article = Articles::create($request ->all());
+        return response()->json($article, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(Articles::find($id), 200);
     }
 
     /**
@@ -69,7 +73,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $article = Articles::find($id);
+        if (is_null($article)){
+            return response()->json('not found', 404);
+        }
+        $article -> update($request->all());
+        return response()->json($article,200);
     }
 
     /**
@@ -80,6 +89,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Articles::find($id);
+        if(is_null($article)){
+            return response()->json('Read not found', 404);
+        }
+        $article->delete();
+        return response()->json(null,204);
     }
 }

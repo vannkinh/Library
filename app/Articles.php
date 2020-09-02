@@ -20,4 +20,15 @@ class Articles extends Model
     {
         return $this->belongToMany(Tag::class);
     }
+     protected $table = "articles";
+     public $timestamps = false;
+
+    protected $fillable = [
+        'user_id',
+        'title',
+        'excerpt',
+        'body',
+        'created_at',
+        'updated_at',
+    ];
 }
