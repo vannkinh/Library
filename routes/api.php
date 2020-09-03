@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::apiResource('user','UserController');
+// Route::apiResource('user','UserController');
 Route::apiResource('article','ArticleController');
-Route::get('article', 'ArticleController@index');
-Route::get('article/{article}', 'ArticleController@show');
-Route::post('article/{article}', 'ArticleController@store');
-Route::put('article', 'ArticleController@update');
-Route::delete('article', 'ArticleController@destroy');
+// Route::get('article', 'ArticleController@index');
+// Route::get('article/{article}', 'ArticleController@show');
+// Route::post('article/{article}', 'ArticleController@store');
+// Route::put('article/{id}', 'ArticleController@update');
+// Route::delete('article', 'ArticleController@destroy');

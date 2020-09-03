@@ -18,7 +18,7 @@ class Articles extends Model
     }
     public function tags()
     {
-        return $this->belongToMany(Tag::class);
+        return $this->belongToMany(Tag::class, 'tag_id');
     }
      protected $table = "articles";
      public $timestamps = false;

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 // use App\Http\Controllers\Controller;
 
 use App\Articles;
+use Validator;
 // use App\User;
 
 class ArticleController extends Controller
@@ -17,7 +18,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return response()->json(Articles::get(), 200);
+        
+        $article = Articles::with('user')->get();
+        return response()->json($article, 200);
     }
 
     /**
@@ -38,6 +41,19 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        //rule for validating date 
+        $rules = [
+            'user_id' => 'required|min:1',
+            'title' => 'required|min:5|max:50',
+            'excerpt' => 'required|min:5',
+            'body' => 'required|min:5',
+            'created_at'=> 'required|min:5',
+            'updated_at' => 'required|min:5',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
         $article = Articles::create($request ->all());
         return response()->json($article, 201);
     }
@@ -50,7 +66,11 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Articles::find($id), 200);
+        $article = Articles::with('user')->find($id);
+        if(is_null($article)){
+            return response()->json(["message" => "Article not found!"], 404);
+        }
+        return response()->json($article, 200);
     }
 
     /**
@@ -75,7 +95,7 @@ class ArticleController extends Controller
     {
         $article = Articles::find($id);
         if (is_null($article)){
-            return response()->json('not found', 404);
+            return response()->json(["message" => "Article not found!"], 404);
         }
         $article -> update($request->all());
         return response()->json($article,200);
@@ -91,7 +111,7 @@ class ArticleController extends Controller
     {
         $article = Articles::find($id);
         if(is_null($article)){
-            return response()->json('Read not found', 404);
+            return response()->json(["message" => "Article not found!"], 404);
         }
         $article->delete();
         return response()->json(null,204);
